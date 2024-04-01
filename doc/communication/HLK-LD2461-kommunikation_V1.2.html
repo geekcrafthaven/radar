@@ -1,0 +1,720 @@
+<figure>
+<img src="../images/hlk-logo.png" alt="" /><figcaption>Logo</figcaption>
+</figure>
+<p>Shenzhen Hailingke Electronics Co., Ltd.</p>
+<p>https://www.hlktech.net/index.php?id=1185</p>
+<figure>
+<img src="../images/board.png" alt="" /><figcaption>Board</figcaption>
+</figure>
+<p><strong>HLK-LD2461</strong></p>
+<p>Serielles Kommunikationsprotokoll des Moduls zur Erkennung und Verfolgung beweglicher Ziele.</p>
+<ul>
+<li><a href="#1-protokolldatenformat">1. Protokolldatenformat</a>
+<ul>
+<li><a href="#11-frame">1.1. Frame</a></li>
+</ul></li>
+<li><a href="#2-syntax">2. Syntax</a>
+<ul>
+<li><a href="#21-änderung-der-baudrate--0x01">2.1. Änderung der Baudrate, 0x01</a></li>
+<li><a href="#22-versionsnummer--eindeutige-id-0x09">2.2. Versionsnummer / eindeutige ID, 0x09</a></li>
+<li><a href="#23-werkseinstellungen-wiederherstellen-0x0a">2.3. Werkseinstellungen wiederherstellen, 0x0A</a></li>
+<li><a href="#24-bereiche-definieren-0x04">2.4. Bereiche definieren, 0x04</a></li>
+<li><a href="#25-bereiche-entfernen-0x05">2.5. Bereiche entfernen, 0x05</a></li>
+<li><a href="#26-bereiche-lesen-0x06">2.6. Bereiche lesen, 0x06</a></li>
+<li><a href="#27-berichtsformat-setzen-0x02">2.7. Berichtsformat setzen, 0x02</a></li>
+<li><a href="#28-berichtsformat-lesen-0x03">2.8. Berichtsformat lesen, 0x03</a></li>
+<li><a href="#29-radarbericht-0x070x08">2.9. Radarbericht, 0x07,0x08</a></li>
+</ul></li>
+</ul>
+<h1 id="protokolldatenformat">1. Protokolldatenformat</h1>
+<p>Die Datenkommunikation über die serielle Schnittstelle des LD2461 verwendet das Big-Endian-Format.<br />
+Alle Daten in der folgenden Tabelle sind hexadezimal.</p>
+<p>Senderichtung ist Host -&gt; Modul.</p>
+<h2 id="frame">1.1. Frame</h2>
+<p>Befehlsrahmenformat in die Senderichtung.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Frame-Header</th>
+<th>Datenlänge</th>
+<th>Befehlswort</th>
+<th>Befehlswert</th>
+<th>Prüfsumme</th>
+<th>Frame-Ende</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>FF EE DD</td>
+<td>2 Bytes</td>
+<td>1 Byte</td>
+<td>N Bytes</td>
+<td>1 Byte</td>
+<td>DD EE FF</td>
+</tr>
+</tbody>
+</table>
+<p>Format eines Befehlsrahmen für die Rückgaben des Protokolls.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Frame-Header</th>
+<th>Datenlänge</th>
+<th>Befehlswort</th>
+<th>Rückgabewert</th>
+<th>Prüfsumme</th>
+<th>Frame-Ende</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>FF EE DD</td>
+<td>2 Bytes</td>
+<td>1 Byte</td>
+<td>N Bytes</td>
+<td>1 Bytes</td>
+<td>DD EE FF</td>
+</tr>
+</tbody>
+</table>
+<p>Beschreibung der Felder:</p>
+<p>Datenlänge: 2 Byte, Befehlswortlänge + Befehlswertlänge</p>
+<p>Prüfsumme: 1 Byte, Befehlswort + Befehlswert, nehmen Sie die unteren 8 Bits der akkumulierten Summe. Beispiel: Nehmen wir an, die Summe Befehlswort + Befehlswert ergeben 0x3068. Die Prüfsumme beträgt dann 68.</p>
+<p>Befehlswert: N Bytes. Die Anzahl der vom Befehlswert jedes Befehls belegten Bytes ist unterschiedlich. Die spezifische Länge hängt von jedem Befehl unten ab.</p>
+<h1 id="syntax">2. Syntax</h1>
+<h2 id="änderung-der-baudrate-0x01">2.1. Änderung der Baudrate, 0x01</h2>
+<p>Standardwert ist 9600 baud.</p>
+<p>Achtung: Nach dem Senden dieses Befehls wird er sort wirksam und die Baudrate der seriellen Schnittstelle ändert sich auf den angegebenen Wert.</p>
+<p>Befehlswort: 0x01</p>
+<p>Befehlswert: 3-Byte-Baudratenwert der seriellen Schnittstelle</p>
+<p>Beispiel für einen Befehlswert, der der Baudrate der seriellen Schnittstelle entspricht (Baudraten Bereich der seriellen Schnittstelle 9600–256000)</p>
+<table>
+<thead>
+<tr class="header">
+<th>Befehlswert</th>
+<th>Baudrate</th>
+<th>Kommentar</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0x002580</td>
+<td>9600</td>
+<td>(Standard)</td>
+</tr>
+<tr class="even">
+<td>0x004B00</td>
+<td>19200</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>0x009600</td>
+<td>38400</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>0x00E100</td>
+<td>57600</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>0x01C200</td>
+<td>115200</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>0x03E800</td>
+<td>256000</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Daten senden</strong></p>
+<p>Ändern Sie die Baudrate der seriellen Schnittstelle auf 115200.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Header</th>
+<th>Length</th>
+<th>Command</th>
+<th>Payload</th>
+<th>Check</th>
+<th>Footer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>FF EE DD</td>
+<td>00 04</td>
+<td>01</td>
+<td>01 C2 00</td>
+<td>C4</td>
+<td>DD EE FF</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Empfangen</strong></p>
+<p>Rückgabewert: 1 Byte (0 schlägt fehl, 1 ist erfolgreich)</p>
+<p>Daten zurückgeben (Erfolg)</p>
+<table>
+<thead>
+<tr class="header">
+<th>Header</th>
+<th>Length</th>
+<th>Command</th>
+<th>Payload</th>
+<th>Check</th>
+<th>Footer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>FF EE DD</td>
+<td>00 02</td>
+<td>01</td>
+<td>01</td>
+<td>02</td>
+<td>DD EE FF</td>
+</tr>
+</tbody>
+</table>
+<h2 id="versionsnummer-eindeutige-id-0x09">2.2. Versionsnummer / eindeutige ID, 0x09</h2>
+<p>Nur Abfrage, nach dem Senden werden die aktuelle Versionsnummer und die eindeutige ID des Moduls zurückgegeben.</p>
+<p><strong>Daten Senden</strong></p>
+<p>Befehlswort: 0x09</p>
+<p>Befehlswert: 0x01</p>
+<p>Daten senden (aktuelle Modulversionsnummer, ID abfragen)</p>
+<table>
+<thead>
+<tr class="header">
+<th>Header</th>
+<th>Length</th>
+<th>Command</th>
+<th>Payload</th>
+<th>Check</th>
+<th>Footer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>FF EE DD</td>
+<td>00 02</td>
+<td>09</td>
+<td>01</td>
+<td>0A</td>
+<td>DD EE FF</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Daten Empfangen</strong></p>
+<p>Rückgabewert: 4 Byte Versionsnummer + 4 Byte ID-Nummer</p>
+<p>Die Versionsnummer beträgt 4 Bytes, das 1. Byte (Jahr und Monat), das 2. Byte (Tag), das 3. Byte (Hauptversion), das 4. Byte Bytes (Nebenversion). Gelistet als 15 20 00 01, die Versionsnummer ist Version 0.1 vom 20. Mai 2021</p>
+<p>Rückgabe Daten (Versionsnummer ist Version 0.1 vom 1. November 2023)</p>
+<table>
+<thead>
+<tr class="header">
+<th>Header</th>
+<th>Length</th>
+<th>Command</th>
+<th>Payload</th>
+<th>Check</th>
+<th>Footer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>FF EE DD</td>
+<td>00 09</td>
+<td>09</td>
+<td>3B 01 00 01 5C 5A D5 56</td>
+<td>27</td>
+<td>DD EE FF</td>
+</tr>
+</tbody>
+</table>
+<h2 id="werkseinstellungen-wiederherstellen-0x0a">2.3. Werkseinstellungen wiederherstellen, 0x0A</h2>
+<p>Wiederherstellen des standardmäßigen nicht Partitions Modus (ohne Zurücksetzen der Baudrate der seriellen Schnittstelle).</p>
+<p>Befehlswort: 0x0A</p>
+<p>Befehlswert: 0x01</p>
+<p>Rückgabewert: 1 Byte (0 schlägt fehl, 1 ist erfolgreich)</p>
+<p>Daten senden</p>
+<table>
+<thead>
+<tr class="header">
+<th>Header</th>
+<th>Length</th>
+<th>Command</th>
+<th>Payload</th>
+<th>Check</th>
+<th>Footer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>FF EE DD</td>
+<td>00 02</td>
+<td>0A</td>
+<td>01</td>
+<td>0B</td>
+<td>DD EE FF</td>
+</tr>
+</tbody>
+</table>
+<p>Empfange Daten</p>
+<table>
+<thead>
+<tr class="header">
+<th>Header</th>
+<th>Length</th>
+<th>Command</th>
+<th>Payload</th>
+<th>Check</th>
+<th>Footer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>FF EE DD</td>
+<td>00 02</td>
+<td>0A</td>
+<td>01</td>
+<td>0B</td>
+<td>DD EE FF</td>
+</tr>
+</tbody>
+</table>
+<h2 id="bereiche-definieren-0x04">2.4. Bereiche definieren, 0x04</h2>
+<p>Legen Sie den angegebenen Bereich so fest, dass nur Ziele erkannt oder nicht erkannt werden. Es können bis zu 3 Bereiche eingestellt werden.</p>
+<p>Befehlswort: 0x04</p>
+<p>Befehlswert: n-ter Blockbereich + x0 y0 x1 y1 x2 y2 x3 y3 + Bereich Typ</p>
+<p>Bereichsnummer, 1 Byte</p>
+<p>1 Block: 1 2 Block: 2 3 Block: 3</p>
+<p>Bereichskoordinaten, 8 Bytes</p>
+<p>Das Koordinatenwertformat ist int8 Typ x, y; Multiplizieren Sie jeweils mit 10. Es gibt insgesamt 4 Scheitelpunkte, die Koordinaten jedes Scheitelpunkts belegen 2 Bytes</p>
+<p>In der Abbildung unten sind 0,1,2,3 der Reihe nach eingestellt.</p>
+<figure>
+<img src="../images/corner.png" alt="" /><figcaption>Corner</figcaption>
+</figure>
+<p>Bereichstyp, 1 Byte</p>
+<p>0x00 erkennt nur Ziele innerhalb des Bereichs 0x01 Keine Ziele in der Umgebung erkennen</p>
+<p><strong>Daten senden</strong></p>
+<p>Ersten Bereich festlegen (1), die Koordinaten jedes Scheitelpunkts sind (-0.5, 2), (-0.5, 1), (0.5, 1), (0.5, 2).<br />
+Ziele in diesem Bereich sollen erkannt werden.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Header</th>
+<th>Length</th>
+<th>Command</th>
+<th>Payload</th>
+<th>Check</th>
+<th>Footer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>FF EE DD</td>
+<td>00 0B</td>
+<td>04</td>
+<td>01 FB 14 FB 0A 05 0A 05 14 00</td>
+<td>41</td>
+<td>DD EE FF</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Daten empfangen</strong></p>
+<p>Rückgabewert: 3 Bytes, 1 Byte Bereichsnummer + 1 Byte Bereichstyp + 1 Byte Ergebnis (0 Fehler, 1 Erfolg)</p>
+<p>Daten zurückgeben</p>
+<table>
+<thead>
+<tr class="header">
+<th>Header</th>
+<th>Length</th>
+<th>Command</th>
+<th>Payload</th>
+<th>Check</th>
+<th>Footer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>FF EE DD</td>
+<td>00 04</td>
+<td>04</td>
+<td>01 00 01</td>
+<td>06</td>
+<td>DD EE FF</td>
+</tr>
+</tbody>
+</table>
+<h2 id="bereiche-entfernen-0x05">2.5. Bereiche entfernen, 0x05</h2>
+<p>Wählen Sie diese Option, um die regionale Filterfunktion einer Einstellung zu entfernen.</p>
+<p>Befehlswort: 0x05</p>
+<p>Befehlswert: 1 Byte Bereichsnummer</p>
+<p><strong>Daten senden</strong></p>
+<p>Filtereinstellungen im Bereich 1 aufheben.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Header</th>
+<th>Length</th>
+<th>Command</th>
+<th>Payload</th>
+<th>Check</th>
+<th>Footer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>FF EE DD</td>
+<td>00 02</td>
+<td>05</td>
+<td>01</td>
+<td>06</td>
+<td>DD EE FF</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Daten zurückgeben</strong></p>
+<p>Rückgabewert: 1 Byte Bereichsnummer + 1 Byte Einstellungsergebnis (0 schlägt fehl, 1 ist erfolgreich)</p>
+<table>
+<thead>
+<tr class="header">
+<th>Header</th>
+<th>Length</th>
+<th>Command</th>
+<th>Payload</th>
+<th>Check</th>
+<th>Footer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>FF EE DD</td>
+<td>00 03</td>
+<td>05</td>
+<td>01 01</td>
+<td>07</td>
+<td>DD EE FF</td>
+</tr>
+</tbody>
+</table>
+<h2 id="bereiche-lesen-0x06">2.6. Bereiche lesen, 0x06</h2>
+<p>Befehlswort: 0x06</p>
+<p>Befehlswert: 0x01</p>
+<p><strong>Daten senden</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>Header</th>
+<th>Length</th>
+<th>Command</th>
+<th>Payload</th>
+<th>Check</th>
+<th>Footer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>FF EE DD</td>
+<td>00 02</td>
+<td>06</td>
+<td>01</td>
+<td>07</td>
+<td>DD EE FF</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Daten empfangen</strong></p>
+<p>Rückgabewert: Bereich Nr. 1 (1 Byte) + Bereichstyp (1 Byte) + Bereichskoordinaten (8 Byte) + Bereich Nr. 2 (1Byte) + Bereichstyp (1 Byte) + Bereichskoordinaten (8 Bytes) + Bereich Nr. 3 (1 Byte) + Bereichstyp (1 Byte) + Bereichskoordinaten (8 Bytes)</p>
+<p>Rückgabe Daten:</p>
+<p>Die Länge und Breite des ersten und dritten Bereichs des Radars betragen jeweils 1 m und die Koordinaten sind (-2, 2), (-2, 1), (-1, 1), (-1, 2) und (1, 2),(1, 1),(2, 1),(2, 2).<br />
+Bereich 1 ist der Bereich zur Erkennung bewegter Ziele, Bereich 3 ist der Bereich zur Abschirmung bewegter Ziele.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Header</th>
+<th>Length</th>
+<th>Command</th>
+<th>Payload</th>
+<th>Check</th>
+<th>Footer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>FF EE DD</td>
+<td>00 1F</td>
+<td>06</td>
+<td>Payload</td>
+<td>85</td>
+<td>DD EE FF</td>
+</tr>
+</tbody>
+</table>
+<p>Payload Content:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Bereich</th>
+<th>Type</th>
+<th>Corner</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>01</td>
+<td>00</td>
+<td>EC 14 EC 0A F6 0A F6 14</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr class="header">
+<th>Bereich</th>
+<th>Type</th>
+<th>Corner</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>02</td>
+<td>00</td>
+<td>00 00 00 00 00 00 00 00</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr class="header">
+<th>Bereich</th>
+<th>Type</th>
+<th>Corner</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>03</td>
+<td>01</td>
+<td>0A 14 0A 0A 14 0A 14 14</td>
+</tr>
+</tbody>
+</table>
+<h2 id="berichtsformat-setzen-0x02">2.7. Berichtsformat setzen, 0x02</h2>
+<p>Ändern Sie das Format der Radarberichtsdaten.<br />
+Standardmäßig wird nur angezeigt, ob sich Ziele in der Umgebung befinden.</p>
+<p>Befehlswort: 0x02</p>
+<p>Befehlswert: 1 Byte</p>
+<p>Befehlswertdefinition:</p>
+<p>0x01 bedeutet, dass nur Punktkoordinatenwerte angezeigt werden</p>
+<p>0x02 bedeutet, dass nur angezeigt wird, ob sich ein Ziel in der Umgebung befindet</p>
+<p>0x03 stellt den Koordinatenwert des Anzeigepunkts dar und gibt an, ob sich in der Umgebung ein Ziel befindet</p>
+<p><strong>Daten senden</strong></p>
+<p>Koordinatenwert des Anzeigepunkts festlegen.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Header</th>
+<th>Length</th>
+<th>Command</th>
+<th>Payload</th>
+<th>Check</th>
+<th>Footer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>FF EE DD</td>
+<td>00 02</td>
+<td>02</td>
+<td>01</td>
+<td>03</td>
+<td>DD EE FF</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Empfange Daten</strong></p>
+<p>Rückgabewert: 1 Byte (0 schlägt fehl, 1 ist erfolgreich)</p>
+<table>
+<thead>
+<tr class="header">
+<th>Header</th>
+<th>Length</th>
+<th>Command</th>
+<th>Payload</th>
+<th>Check</th>
+<th>Footer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>FF EE DD</td>
+<td>00 02</td>
+<td>02</td>
+<td>01</td>
+<td>03</td>
+<td>DD EE FF</td>
+</tr>
+</tbody>
+</table>
+<h2 id="berichtsformat-lesen-0x03">2.8. Berichtsformat lesen, 0x03</h2>
+<p>Lesen Sie das Format der aktuellen vom Radar gemeldeten Daten</p>
+<p>Befehlswort: 0x03</p>
+<p>Befehlswert: 0x01</p>
+<p>Rückgabewert: 1-Byte-Radar-Berichtsformat Details zum Status finden Sie in der Befehlswertdefinition “Berichtsformat setzen”.</p>
+<p><strong>Daten senden</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>Header</th>
+<th>Length</th>
+<th>Command</th>
+<th>Payload</th>
+<th>Check</th>
+<th>Footer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>FF EE DD</td>
+<td>00 02</td>
+<td>03</td>
+<td>01</td>
+<td>04</td>
+<td>DD EE FF</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Daten zurückgeben</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>Header</th>
+<th>Length</th>
+<th>Command</th>
+<th>Payload</th>
+<th>Check</th>
+<th>Footer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>FF EE DD</td>
+<td>00 02</td>
+<td>03</td>
+<td>01</td>
+<td>04</td>
+<td>DD EE FF</td>
+</tr>
+</tbody>
+</table>
+<h2 id="radarbericht-0x070x08">2.9. Radarbericht, 0x07,0x08</h2>
+<p>Das Modul meldet aktiv Daten und das Format des gemeldeten Inhalts wird durch den Parameter “Berichtsformat” beeinflusst.</p>
+<p>Befehlswort: 0x07 und 0x08</p>
+<p>Befehlswert: siehe Tabelle unten</p>
+<p>Rückgabewert: XX</p>
+<p>Das Radarberichtsformat entspricht dem Befehlswort:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Format</th>
+<th>Befehlswort</th>
+<th>Befehlswert</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0x01</td>
+<td>0x07</td>
+<td>x- und y-Koordinaten verschiedener Bereiche.</td>
+</tr>
+<tr class="even">
+<td>0x02</td>
+<td>0x08</td>
+<td>1 jemand, 0 niemand</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Daten empfangen</strong></p>
+<p>Radarberichtsformat ist 0x02.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Header</th>
+<th>Length</th>
+<th>Command</th>
+<th>Payload</th>
+<th>Check</th>
+<th>Footer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>FF EE DD</td>
+<td>00 04</td>
+<td>08</td>
+<td>payload</td>
+<td>0A</td>
+<td>DD EE FF</td>
+</tr>
+</tbody>
+</table>
+<p>Payload:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Bereich 1</th>
+<th>Bereich 2</th>
+<th>Bereich 3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>01</td>
+<td>00</td>
+<td>01</td>
+</tr>
+</tbody>
+</table>
+<p>Es gibt ein Ziel in Bereich 1, es gibt kein Ziel in Bereich 2 und es gibt ein Ziel in Bereich 3.</p>
+<p>Radarberichtsformat ist 0x01.</p>
+<p>X-Koordinatenwert von Ziel 1 + Y-Koordinatenwert von Ziel 1 + X-Koordinatenwert von Ziel 2 Koordinatenwert + Y-Koordinatenwert von Ziel 2.</p>
+<p>Die Berechnungsmethode für den Koordinatenwert ist dieselbe wie die Koordinatenberechnungsmethode in Bereichsfilterung.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Header</th>
+<th>Length</th>
+<th>Command</th>
+<th>Payload</th>
+<th>Check</th>
+<th>Footer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>FF EE DD</td>
+<td>00 05</td>
+<td>07</td>
+<td>payload</td>
+<td>25</td>
+<td>DD EE FF</td>
+</tr>
+</tbody>
+</table>
+<p>Payload:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Ziel 1 Koordinate</th>
+<th>Ziel 2 Koordinate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>F1 0F</td>
+<td>0F 0F</td>
+</tr>
+</tbody>
+</table>
