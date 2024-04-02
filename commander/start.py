@@ -91,7 +91,10 @@ class PlainText:
 
 class RadarWindow(Frame):
     def __init__(self, _parent):
+<<<<<<< HEAD
 
+=======
+>>>>>>> d018f15 (stuff)
         self.__width = 400
         self.__height = 400
 
@@ -99,9 +102,16 @@ class RadarWindow(Frame):
         win.geometry("%dx%d" % (self.width, self. height))
         win.title('map')
 
+<<<<<<< HEAD
         def ignore_quit():
             pass
         win.protocol("WM_DELETE_WINDOW", ignore_quit)
+=======
+        # my_str1 = StringVar()
+        # l1 = Label(win,  textvariable=my_str1)
+        # l1.grid(row=1, column=2)
+        # my_str1.set("Hi I am Child window")
+>>>>>>> d018f15 (stuff)
 
         self.w = Canvas(win,
                         width=self.width,
@@ -111,6 +121,16 @@ class RadarWindow(Frame):
 
         self.w.pack()
 
+<<<<<<< HEAD
+=======
+        # y = int(200 / 2)
+        # self.w.create_line(0, y, 200, y, fill="#476042")
+
+        # win.overrideredirect(1)  # No win decoration.
+        # win.bd = 10
+        # Frame.__init__(self, win, relief=GROOVE)
+
+>>>>>>> d018f15 (stuff)
     @property
     def width(self):
         return self.__width
@@ -120,6 +140,7 @@ class RadarWindow(Frame):
         return self.__height
 
     def on_resize(self, event):
+<<<<<<< HEAD
         self.__width = event.width
         self.__height = event.height
         self.w.config(width=self.width, height=self.height)
@@ -128,6 +149,22 @@ class RadarWindow(Frame):
         # hscale = float(event.height)/self.height
         # self.w.scale("all", 0, 0, wscale, hscale)
 
+=======
+        # determine the ratio of old width/height to new width/height
+        # wscale = float(event.width)/self.width
+        # hscale = float(event.height)/self.height
+        self.__width = event.width
+        self.__height = event.height
+        # resize the canvas
+        self.w.config(width=self.width, height=self.height)
+        # rescale all the objects tagged with the "all" tag
+        # self.w.scale("all", 0, 0, wscale, hscale)
+
+    # ... and this is the handler for the button being pressed.
+    # def onDropDown(self):
+    #    popUp = ChildPopUpWindow(self)
+
+>>>>>>> d018f15 (stuff)
     def draw_points(self):
         from commander.radar.feature.PointsPool import pool
         from commander.radar.feature.PointsPool import fields

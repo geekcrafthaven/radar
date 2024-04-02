@@ -39,11 +39,7 @@ class AreaDefineReq(AreaCmd):
 
     @property
     def sdu(self):
-<<<<<<< HEAD
         return [self.command, self.identifier] + self.area + [self.__type]
-=======
-        return [self.command, self.identifier] + self.area
->>>>>>> 8816fe3 (added commander implementation)
 
     def __str__(self):
         from commander.utilities.PrettyPrint import VDELIM
