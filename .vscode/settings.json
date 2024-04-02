@@ -7,7 +7,7 @@
         "**/.DS_Store": true,
         "**/Thumbs.db": true,
         "**/.vscode": false,
-        "**/__pycache__": true
+        "**/__pycache__": false
     },
     "cSpell.language": "en,de",
     "cSpell.words": [
