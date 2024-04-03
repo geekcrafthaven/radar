@@ -1,0 +1,100 @@
+adapter area define 2 1 -5 20 -5 10 5 10 5 10
+adapter area read
+adapter format set 3
+adapter reset
+adapter area read
+adapter identity
+help radar
+adapter format set 3
+adapter format set 2
+adapter format set 1
+adapter report ignore
+adapter report show
+adapter reset
+adapter area read
+adapter report ignore
+adapter area read
+adapter area define 1 1 -5 20 -5 10 5 10 5 10
+adapter format set 3
+adapter report show
+adapter report ignore
+adapter area read
+adapter area define 1 1 -15 20 -15 10 -5 10 -5 10
+adapter area read
+adapter area define 2 1 -5 20 -5 10 5 10 5 10
+adapter area read
+adapter area define 3 1 -5 20 -5 10 5 10 5 10
+adapter area read
+adapter format set 3
+adapter report show
+adapter report ignore
+quit
+adapter report show
+adapter report ignore
+help
+adapter format set 1
+adapter area remove 1
+adapter area remove 2
+adapter area remove 3
+adapter area read
+adapter reaset
+adapter reset
+adapter area read
+adapter report show
+help
+help radar
+adapter baudrate 256000
+adapter area read
+close all
+adapter area read
+adapter reset
+adapter format 2
+adapter format get
+adapter format set 1
+adapter format set 2
+adapter format set 3
+adapter format set 1
+adapter reset
+adapter report show
+adapter reset
+adapter report ignore
+adapter reset
+adapter report show
+adapter format set 3
+adapter format set 2
+close all
+adapter reset
+adapter format set 2
+reset
+adapter area define 1 1 -5 10 -5 0 5 0 5 10
+adapter area define 1 0 -5 20 -5 10 5 10 5 20
+adapter area read
+reset
+adapter area read
+adapter report show
+adapter report ignore
+adapter area read
+adapter format set 3
+adapter area define 1 0 -5 20 -5 10 5 10 5 20
+adapter area read
+adapter format set 3
+adapter area read
+adapter area define 2 0 -5 10 -5 0 5 0 5 10
+adapter area read
+adapter format set 2
+adapter area define 3 0 -20 20 -20 10 20 10 20 20
+adapter area read
+adapter area define 3 0 -20 30 -20 20 20 20 20 30
+adapter area read
+adapter format set 1
+adapter reset
+adapter area read
+adapter format set 3
+adapter area read
+adapter area define 3 0 -20 30 -20 20 20 20 20 30
+adapter area read
+adapter area define 2 0 -5 10 -5 0 5 0 5 10
+adapter area read
+adapter area define 1 0 -5 20 -5 10 5 10 5 20
+adapter area read
+help radar

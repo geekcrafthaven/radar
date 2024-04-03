@@ -1,0 +1,128 @@
+{
+    "SPDX-FileCopyrightText": "2024 Roman Koch <koch.roman@gmail.com>",
+    "SPDX-License-Identifier": "MIT",
+    "commander": {
+        "package": {
+            "name": "Commander",
+            "info": "Radar serial control",
+            "copyright": "Copyright (C) 2024, Roman Koch",
+            "license": "MIT",
+            "revision": "1.0",
+            "contact": "koch.roman@gmail.com"
+        },
+        "shortcut": [
+            {
+                "key": {
+                    "modifier": null,
+                    "type": "KeyPress",
+                    "detail": "F1"
+                },
+                "value": "help",
+                "options": {
+                    "execute": true
+                }
+            },
+            {
+                "key": {
+                    "modifier": null,
+                    "type": "KeyPress",
+                    "detail": "F2"
+                },
+                "value": "clean",
+                "options": {
+                    "execute": true
+                }
+            }
+        ],
+        "storage": {
+            "library": "library",
+            "gallery": "artifacts/gallery",
+            "calibration": "artifacts/calibration",
+            "picture": "test.png",
+            "movie": "test.h264",
+            "codec": "h264"
+        },
+        "database": {
+            "name": "commander",
+            "host": "10.112.68.215",
+            "port": 3306,
+            "user": "pi",
+            "password": ""
+        },
+        "verbosity": 15,
+        "path_excludes": [
+            ".git",
+            ".svn",
+            ".vscode",
+            ".idea",
+            "schemas",
+            ".ssh",
+            ".tools",
+            ".venv"
+        ],
+        "appearance": {
+            "font": "#070707",
+            "signal": "#ff0000",
+            "done": "#007f00",
+            "emphasis": "#0000ff",
+            "positiv": "#011f01",
+            "negativ": "#1f0101"
+        }
+    },
+    "station": [
+        {
+            "name": "radar-eval-01",
+            "address": "10.112.68.235",
+            "port": 51234
+        }
+    ],
+    "setup": {
+        "devices": [
+            {
+                "alias": "board",
+                "port": {
+                    "device": {
+                        "vid": "#beef",
+                        "pid": "#0024"
+                    },
+                    "baudrate": 115200
+                },
+                "parameter": {
+                    "color": "blue",
+                    "interpreter": "hci"
+                }
+            },
+            {
+                "alias": "adapter",
+                "port": {
+                    "device": "/dev/ttyUSB0",
+                    "baudrate": 115200,
+                    "bits": 8,
+                    "parity": "none",
+                    "stopbits": 1,
+                    "flowcontrol": "none"
+                },
+                "parameter": {
+                    "color": "blue",
+                    "interpreter": "radar"
+                },
+                "storage": [
+                    {
+                        "key": "keypad",
+                        "value": "adapter"
+                    }
+                ]
+            }
+        ],
+        "config": [
+            {
+                "name": "board",
+                "aliases": [
+                    "adapter"
+                ],
+                "station": "radar-eval-01"
+            }
+        ],
+        "default": "board"
+    }
+}

@@ -1,0 +1,51 @@
+{
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/.vscode": false,
+        "**/__pycache__": true
+    },
+    "cSpell.language": "en,de",
+    "cSpell.words": [
+        "baudrate",
+        "CRCON",
+        "DEESCAPE",
+        "DLINE",
+        "DNCON",
+        "doctrim",
+        "flowcontrol",
+        "gpio",
+        "Gpio",
+        "GPIO",
+        "HDLC",
+        "HLINE",
+        "MCSA",
+        "RRGGBB",
+        "scpi",
+        "stopbits",
+        "tabspace",
+        "termbase",
+        "UPCON",
+        "Vari",
+        "radar",
+        "VDELIM",
+        "venv",
+        "XMODEM"
+    ],
+    "workbench.preferredDarkColorTheme": "Default Dark Modern",
+    "workbench.colorTheme": "Default Dark Modern",
+    "workbench.colorCustomizations": {
+        "[Default Dark Modern]": {
+            "tab.activeBackground": "#3f3f3f",
+            "tab.activeBorder": "#5f5f5f",
+            "tab.hoverBorder": "#5f5f5f",
+            "editor.background": "#0e0e0f",
+            "terminal.background": "#0e0e0f",
+            "outputView.background": "#0e0e0f"
+        }
+    }
+}
