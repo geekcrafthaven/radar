@@ -6,14 +6,13 @@
 # SPDX-License-Identifier: MIT
 
 
-from commander.radar.feature.PointsPool import Point
+from commander.map.RadarMap import RadarMap
 
 
 try:
     import tkinter
     from tkinter import Frame, Tk, FLAT, Entry, Text, Scrollbar, END, ANCHOR
     from tkinter.font import Font
-    from tkinter import GROOVE, Canvas, Label, StringVar, Toplevel
 except Exception as msg:
     print('commander error: import tkinter: %s' % msg)
     import sys
@@ -89,6 +88,7 @@ class PlainText:
 # This is the child which appears when the button is pressed.
 
 
+<<<<<<< HEAD
 class RadarWindow(Frame):
     def __init__(self, _parent):
 <<<<<<< HEAD
@@ -199,6 +199,8 @@ class RadarWindow(Frame):
                                text='%d' % item.identifier, fill='yellow')
 
 
+=======
+>>>>>>> 05501f7 (some fixes)
 class CommanderTk(Frame):
     """
     control terminal
@@ -251,7 +253,7 @@ class CommanderTk(Frame):
 
         self.after(100, self._update_display)
 
-        self.__map_window = RadarWindow(self.__tk)
+        self.__map_window = RadarMap(self.__tk)
 
     def __del__(self):
         from commander.termbase.TermBase import TermBase
@@ -386,11 +388,11 @@ class CommanderTk(Frame):
         from commander.termbase.TermBase import TermBase
         TermBase.termbase.perform()
 
-        from commander.radar.feature.PointsPool import pool
+        from commander.map.PointsPool import pool
         pool.perform()
         self.__map_window.draw_points()
 
-        self.after(100, self._update_display)
+        self.after(50, self._update_display)
 
     def start(self):
         from commander.termbase.TermBase import TermBase

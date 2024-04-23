@@ -59,7 +59,8 @@ class Field:
 
 class Fields:
     def __init__(self):
-        self.__field = [Field(0,0,0,0), Field(0,0,0,0), Field(0,0,0,0)]
+        self.__field = [Field(0, 0, 0, 0), Field(
+            0, 0, 0, 0), Field(0, 0, 0, 0)]
 
     @property
     def fields(self):
@@ -86,17 +87,15 @@ fields = Fields()
 
 
 class Point:
-    MAX_COUNTER = 33
-
     def __init__(self, _identifier=0xff, _x=0, _y=0):
         self.__identifier = _identifier
         self.__x = _x
         self.__y = _y
-        self.__counter = Point.MAX_COUNTER
+        self.__weight = 1
 
     @property
-    def counter(self):
-        return self.__counter
+    def weight(self):
+        return self.__weight
 
     @property
     def identifier(self):
@@ -123,20 +122,34 @@ class Point:
         self.__y = _value
 
     def reset(self):
-        self.__counter = Point.MAX_COUNTER
+        self.__weight = 1
 
     def perform(self):
-        self.__counter = 0 if self.__counter <= 1 else self.__counter - 1
+        self.__weight = 0 if self.__weight < 0.01 else self.__weight * 0.95
 
 
 class Pool:
-
     def __init__(self):
         self.__points = []
+        self.__x = 0
+        self.__y = 0
+        self.__w = 0
 
     @property
     def points(self):
         return self.__points
+
+    @property
+    def x(self):
+        return self.__x
+
+    @property
+    def y(self):
+        return self.__y
+
+    @property
+    def w(self):
+        return self.__w
 
     def add(self, _point):
         found = False
@@ -147,14 +160,59 @@ class Pool:
         if not found:
             self.__points.append(_point)
 
+    def __weight_point(self, _cluster):
+        weight = 0
+        x_weight = 0
+        y_weight = 0
+        for item in _cluster:
+            weight += item.weight
+            x_weight += item.x * item.weight
+            y_weight += item.y * item.weight
+        if weight > 0:
+            x = x_weight / weight
+            y = y_weight / weight
+            w = weight
+        else:
+            x = 0
+            y = 0
+            w = 0
+        return (x, y, w)
+
     def perform(self):
         tmp = self.__points
         self.__points = []
         for item in tmp:
             item.perform()
 
-            if item.counter > 0:
+            if item.weight > 0:
                 self.add(item)
+
+        (x, y, w) = self.__weight_point(self.__points)
+        if w > 0:
+            self.__x = x
+            self.__y = y
+            self.__w = w
+        else:
+            self.__x = 0
+            self.__y = 0
+            self.__w = 0
+
+
+class Cluster:
+    def __init__(self):
+        self.__clusters = {}
+
+    def add(self, _point):
+        # if len(self.__cluster) == 0:
+        #    pass
+        # else:
+        #    pass
+        pass
+
+    def perform(self):
+        for item in self.__clusters:
+            item.perform()
+
 
 
 pool = Pool()

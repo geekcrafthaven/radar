@@ -1,17 +1,3 @@
-adapter area define 2 1 -5 20 -5 10 5 10 5 10
-adapter area read
-adapter format set 3
-adapter reset
-adapter area read
-adapter identity
-help radar
-adapter format set 3
-adapter format set 2
-adapter format set 1
-adapter report ignore
-adapter report show
-adapter reset
-adapter area read
 adapter report ignore
 adapter area read
 adapter area define 1 1 -5 20 -5 10 5 10 5 10
@@ -98,3 +84,17 @@ adapter area read
 adapter area define 1 0 -5 20 -5 10 5 10 5 20
 adapter area read
 help radar
+adapter reset
+quit
+adapter reset
+help
+adapter reset
+adapter area define 1 0 -5 20 -5 10 5 10 5 20
+adapter area define 2 0 -5 10 -5 0 5 0 5 10
+adapter area define 3 0 -20 30 -20 20 20 20 20 30
+adapter area read
+help
+help hci
+help radar
+adapter format set 3
+adapter format set 2

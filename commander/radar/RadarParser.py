@@ -7,7 +7,7 @@
 
 from commander.radar.GenericCmd import GenericCmd
 from commander.radar.feature.FormatGetCfm import FormatGetCfm
-from commander.radar.feature.PointsPool import Point
+from commander.map.PointsPool import Point
 from commander.utilities.PrettyPrint import VDELIM
 
 from commander.radar.control.BaudrateCfm import BaudrateCfm
@@ -34,7 +34,7 @@ def check_command(_command, _payload):
     elif _command == GenericCmd.COMMANDS['AREA_REMOVE']:
         return AreaRemoveCfm(_payload)
     elif _command == GenericCmd.COMMANDS['AREA_READ']:
-        from commander.radar.feature.PointsPool import fields
+        from commander.map.PointsPool import fields
         areas = AreaReadCfm(_payload)
 
         fields.field1.x0 = -b2i(areas.area_1.br[0])*10
@@ -61,7 +61,7 @@ def check_command(_command, _payload):
         return FormatGetCfm(_payload)
     elif _command == GenericCmd.COMMANDS['REPORT_POSITION']:
         position = ReportPositionInd(_payload)
-        from commander.radar.feature.PointsPool import pool
+        from commander.map.PointsPool import pool
 
         x = -b2i(position.first[0])*10
         y = b2i(position.first[1])*10
@@ -79,7 +79,7 @@ def check_command(_command, _payload):
 
         return position
     elif _command == GenericCmd.COMMANDS['REPORT_AREA']:
-        from commander.radar.feature.PointsPool import fields
+        from commander.map.PointsPool import fields
 
         area = ReportAreaInd(_payload)
         if area.area_1 == 1:
